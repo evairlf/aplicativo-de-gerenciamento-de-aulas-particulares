@@ -1,0 +1,7 @@
+{
+  "name": "aplicativo-de-gerenciamento-de-aulas-particulares",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
