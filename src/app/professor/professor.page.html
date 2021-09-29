@@ -1,0 +1,121 @@
+<ion-header >
+  <ion-toolbar color="dark" class="center">
+    <ion-title *ngIf="(perfil === 1)">professor</ion-title>
+    <ion-title *ngIf="(perfil === 2)">Aulas Disponiveis</ion-title>
+    <ion-button size="small" slot="end" (click)="logout()">Sair</ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="(!verLista)&&(perfil === 1)" mode="md" class="center" color="dark">
+  <ion-item>
+    <ion-label>Data</ion-label>
+    <ion-datetime placeholder="Selecionar a data" [(ngModel)]="data"
+    displayFormat="DD-MMM-YYYY"
+    monthShortNames="jan, fev, mar, abr, mai, jun, jul, ago, set, out, nov, dez"
+    doneText="OK" cancelText="cancelar"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Hora</ion-label>
+    <ion-select value="" okText="Ok" cancelText="Cancelar" [(ngModel)]="hora">
+      <ion-select-option value="7:00">7:00</ion-select-option>
+      <ion-select-option value="8:00">8:00</ion-select-option>
+      <ion-select-option value="9:00">9:00</ion-select-option>
+      <ion-select-option value="10:00">10:00</ion-select-option>
+      <ion-select-option value="11:00">11:00</ion-select-option>
+      <ion-select-option value="12:00">12:00</ion-select-option>
+      <ion-select-option value="13:00">13:00</ion-select-option>
+      <ion-select-option value="14:00">14:00</ion-select-option>
+      <ion-select-option value="15:00">15:00</ion-select-option>
+      <ion-select-option value="16:00">16:00</ion-select-option>
+      <ion-select-option value="17:00">17:00</ion-select-option>
+    </ion-select>
+  </ion-item>
+  
+  <ion-item>
+    <h5>Conteudo Programado</h5>
+  </ion-item>
+<ion-item>
+  <ion-input style="height: 200px;" placeholder="Digite aqui" [(ngModel)]="texto">
+  </ion-input>
+</ion-item>
+
+<ion-item mode="md"  ([ngModel])="aluno.nome">Aluno Vinculado: </ion-item>
+  <ion-item>
+    <ion-label>Status</ion-label>
+    <ion-select [(ngModel)]="status" placeholder="Selecione">
+      <ion-select-option value="ativo" >Ativo</ion-select-option>
+      <ion-select-option value="inativo">Inativo</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-button *ngIf="(data != null)&&(hora != null)&&(texto != null)&&(reset == true)" 
+  expand="full" size="medium" 
+  (click)="cadastroHorario()">Cadastrar Horario
+</ion-button>
+  
+
+  <ion-button expand="full" *ngIf="((data == null)||(hora == null)||(texto == null))&&(reset == true)" 
+   size="medium" disabled="true">Cadastrar Horario</ion-button>
+
+
+  <p *ngIf="(reset == true)">{{mensagem}}</p>
+
+    <ion-button class="back" *ngIf="(reset == false)" size="medium" href="/professor">Cadastrar<br> Horario</ion-button>
+    <ion-button class="back" *ngIf="(reset == false)&&((data == null)||(hora == null)||(texto == null))"
+     size="medium" disabled="true" (click)="cadastroHorario()">Cadastrar<br> Horario</ion-button>
+    <ion-button *ngIf="(reset == false)" size="medium" href="/lista">Ver Lista <br> de Horarios</ion-button>
+
+//Parte professor
+</ion-content>
+
+<ion-content *ngIf="(verLista === true)">
+  <ion-content >
+   
+    <ion-list padding *ngFor="let list of listaDeHrs">
+      <ion-label>
+      <h4>Data:</h4>
+      <ion-datetime disabled="true" displayFormat="DD-MMM-YYYY"
+        monthShortNames="jan, fev, mar, abr, mai, jun, jul, ago, set, out, nov, dez" value="{{list.data}}">
+      </ion-datetime>
+      <h4>Hora: </h4>
+      <p>{{list.hora}}</p>
+      <h3>Descrição:</h3>
+      <p>{{list.texto}}</p>
+      <h3>Status:</h3>
+      <ion-select [(ngModel)]="list.status" placeholder="{{list.status}}">
+        <ion-select-option value="ativo" >Ativo</ion-select-option>
+        <ion-select-option value="inativo">Inativo</ion-select-option>
+      </ion-select>
+      <ion-button color="dark" expand="full" disabled="true"></ion-button>
+    </ion-label>
+    </ion-list>
+  </ion-content>
+
+</ion-content>
+
+
+  <ion-content *ngIf="(perfil === 2)">
+    <ion-content >
+      <ion-list padding *ngFor="let list of listaDeHrs">
+        <ion-label>
+        <h4>Data:</h4>
+        <ion-datetime
+          value="{{list.data}}">
+        </ion-datetime>
+        <h4>Hora: </h4>
+        <p>{{list.hora}}</p>
+        <h3>Descrição:</h3>
+        <p>{{list.texto}}</p>
+        <h3>Status:</h3>
+        <ion-select [(ngModel)]="list.status" placeholder="{{list.status}}">
+          <ion-select-option value="ativo" >Ativo</ion-select-option>
+          <ion-select-option value="inativo">Inativo</ion-select-option>
+        </ion-select>
+        <h3>Alunos:</h3>
+        <p>{{list.aluno}}</p>
+        <ion-button (click)="reservar(list.hora)">Reservar Aula</ion-button>
+        <ion-button (click)="desReservar(list.hora)">Cancelar Aula</ion-button>
+        <ion-button color="dark" expand="full" disabled="true"><p>{{deuErro}}</p></ion-button>
+      </ion-label>
+      </ion-list>
+    </ion-content>

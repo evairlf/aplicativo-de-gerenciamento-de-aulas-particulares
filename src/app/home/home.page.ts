@@ -1,4 +1,7 @@
+import { ALUNO, GlobalVarsService, PROFESSOR } from './../global-vars.service';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-home',
@@ -6,7 +9,25 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+ email: string;
+ senha: string;
+ mensagem: string;
 
-  constructor() {}
+  constructor(private global: GlobalVarsService, private router: Router) {}
+
+  login(){
+    try {
+      this.global.login(this.email, this.senha);
+      if(this.global.logado.perfil === PROFESSOR){
+        this.router.navigate(['/professor']);
+      }else if(this.global.logado.perfil === ALUNO){
+        this.router.navigate(['/professor']);
+      }
+    this.mensagem = this.global.logado.nome;
+    } catch (error) {
+      this.mensagem = error;
+    }
+  }
+
 
 }

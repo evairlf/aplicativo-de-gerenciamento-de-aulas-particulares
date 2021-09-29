@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-content >
+   
+    <ion-list padding *ngFor="let list of lista">
+      <ion-label>
+      <h4>Data:</h4>
+      <ion-datetime disabled="true" displayFormat="DD-MMM-YYYY"
+        monthShortNames="jan, fev, mar, abr, mai, jun, jul, ago, set, out, nov, dez" value="{{list.data}}">
+      </ion-datetime>
+      <h4>Hora: </h4>
+      <p>{{list.hora}}</p>
+      <h3>Descrição:</h3>
+      <p>{{list.texto}}</p>
+      <h3>Status:</h3>
+      <ion-select [(ngModel)]="list.status" placeholder="{{list.status}}">
+        <ion-select-option value="ativo" >Ativo</ion-select-option>
+        <ion-select-option value="inativo">Inativo</ion-select-option>
+      </ion-select>
+      <ion-button color="dark" expand="full" disabled="true"></ion-button>
+    </ion-label>
+    </ion-list>
+    <ion-button href="/lista"></ion-button>
+  </ion-content>
+</ion-content>
