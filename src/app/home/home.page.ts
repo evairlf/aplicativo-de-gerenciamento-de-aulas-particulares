@@ -16,14 +16,14 @@ export class HomePage {
   constructor(private global: GlobalVarsService, private router: Router) {}
 
   login(){
+    this.mensagem = '';
     try {
       this.global.login(this.email, this.senha);
       if(this.global.logado.perfil === PROFESSOR){
         this.router.navigate(['/professor']);
       }else if(this.global.logado.perfil === ALUNO){
-        this.router.navigate(['/professor']);
+        this.router.navigate(['/lista']);
       }
-    this.mensagem = this.global.logado.nome;
     } catch (error) {
       this.mensagem = error;
     }

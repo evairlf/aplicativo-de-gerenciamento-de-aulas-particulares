@@ -1,11 +1,12 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title></ion-title>
+    <ion-title>Aulas Disponiveis</ion-title>
+    <ion-button size="small" slot="end" (click)="logout()">Sair</ion-button>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-content >
+<ion-content color="dark">
+  <ion-content *ngIf="(perfil === 1)">
    
     <ion-list padding *ngFor="let list of lista">
       <ion-label>
@@ -15,16 +16,49 @@
       </ion-datetime>
       <h4>Hora: </h4>
       <p>{{list.hora}}</p>
-      <h3>Descrição:</h3>
-      <p>{{list.texto}}</p>
+
       <h3>Status:</h3>
       <ion-select [(ngModel)]="list.status" placeholder="{{list.status}}">
         <ion-select-option value="ativo" >Ativo</ion-select-option>
         <ion-select-option value="inativo">Inativo</ion-select-option>
       </ion-select>
+      <h1>{{variavelBosta}}</h1>
       <ion-button color="dark" expand="full" disabled="true"></ion-button>
     </ion-label>
     </ion-list>
-    <ion-button href="/lista"></ion-button>
+    <ion-button href="/"></ion-button>
   </ion-content>
-</ion-content>
+
+  <ion-content *ngIf="(perfil === 2)">
+    <ion-content >
+      <ion-list padding *ngFor="let list of lista">
+        <ion-label>
+        <h4>Data:</h4>
+        <ion-datetime
+          value="{{list.data}}">
+        </ion-datetime>
+        <h4>Hora: </h4>
+
+        <p>{{list.hora}}</p>
+        <h3>Descrição:</h3>
+        <p>{{list.texto}}</p>
+        <p>Conteudo a ser abordado pelo aluno</p>
+      <ion-input placeholder="edite aqui o conteudo que sera abordado" [(ngModel)]="texto">
+      </ion-input>
+
+
+        <h3>Status:</h3>
+        <ion-select [(ngModel)]="list.status" disabled="true" placeholder="{{list.status}}">
+          <ion-select-option value="ativo" >Ativo</ion-select-option>
+          <ion-select-option value="inativo">Inativo</ion-select-option>
+        </ion-select>
+        <h3>Alunos:</h3>
+        <p>{{list.aluno}}</p>
+        <ion-button (click)="reservar(list.hora,texto)">Reservar Aula</ion-button>
+        <ion-button (click)="desReservar(list.hora)">Cancelar Aula</ion-button>
+        <ion-button color="dark" expand="full" disabled="true"><p>{{msgErro}}</p></ion-button>
+      </ion-label>
+      </ion-list>
+    </ion-content>
+  
+  </ion-content>

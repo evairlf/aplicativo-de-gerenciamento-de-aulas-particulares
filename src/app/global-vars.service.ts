@@ -11,28 +11,17 @@ export class GlobalVarsService {
   logado: any;
   usuarios: any[];
   public listaDeHorarios: any[];
+  varBosta: any;
 
   constructor() {
-    this.listaDeHorarios = [
-      {
-        data: new Date,
-        hora: '17:00',
-        texto: 'texto',
-        aluno: null,
-        status: 'ativo'
-      },{
-        data: new Date,
-        hora: '13:00',
-        texto: 'texto',
-        aluno: null,
-        status: 'inativo'
-      }
-    ];
+    
+    this.listaDeHorarios = [];
 
     this.usuarios = [
       {
         id: 1,
-        nome: 'Aluno',
+        reservas:0,
+        nome: 'Rodolfo Antonio',
         email: 'aluno@email.com',
         senha: '1234',
         perfil: ALUNO
@@ -43,18 +32,21 @@ export class GlobalVarsService {
         email: 'professor@email.com',
         senha: '1234',
         perfil: PROFESSOR
-      },
+      }
     ];
 
 
-
+    console.log('chamado');
     this.logado = null;
 
    
   
   }
 
+
   login(email: string, senha: string) {
+
+    if((email != null)|| (senha != null)){
     for (let i = 0; i < this.usuarios.length; i++) {
       const usr = this.usuarios[i];
       if ((usr.email === email) && (usr.senha === senha)) {
@@ -63,18 +55,19 @@ export class GlobalVarsService {
       }
     }
     throw new Error("E-mail ou senha inválida");
-
+  }
+  throw new Error("Email ou senha em branco");
   }
 
-  cadastro(data: Date,hora: string,texto: string,status: string) {
-    let horario = {
+  cadastro(data: Date,hora: string,texto: string,status: string, aluno: any) {
+    var horario = {
       data: data,
       hora: hora,
       texto: texto,
-      aluno: 'rodolfo',
+      aluno: aluno,
       status: status
      };
-
+    this.varBosta = texto;
     this.listaDeHorarios.push(horario);
       for (let i = 0; i < this.listaDeHorarios.length; i++) {
         const element = this.listaDeHorarios[i];
@@ -84,12 +77,13 @@ export class GlobalVarsService {
       }
   }
 
-  add(hora: string,nome){
+  add(hora: string,nome,texto){
     try {
       for (let i = 0; i < this.listaDeHorarios.length; i++) {
         const hr = this.listaDeHorarios[i];
         if(hr.hora === hora){
         hr.aluno = nome;
+        hr.texto += texto;
       }
     }
     } catch (error) {
@@ -97,13 +91,16 @@ export class GlobalVarsService {
     }
   }
 
-    tira(hora: string,nome){
+    tira(hora: string){
       try {
         for (let i = 0; i < this.listaDeHorarios.length; i++) {
           const hr = this.listaDeHorarios[i];
-          if(hr.hora === hora){
-          hr.aluno = null;
-        }
+          
+            if(hr.hora === hora){
+              hr.aluno = null;
+            
+          }
+          
       }
       } catch (error) {
         throw new Error("imposivel desreservar");

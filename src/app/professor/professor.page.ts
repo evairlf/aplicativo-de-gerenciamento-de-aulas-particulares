@@ -11,7 +11,7 @@ export class ProfessorPage implements OnInit {
   data: Date;
   hora: string;
   texto: string;
-  aluno: any;
+  alunoNome: any;
   status: string;
   mensagem: string;
   verLista: boolean = false;
@@ -19,26 +19,28 @@ export class ProfessorPage implements OnInit {
   listaDeHrs: any[];
   novaLista: any[];
   perfil: any;
-  alunoReservas: number = 1;
+  
+  usuarios: any[];
+  
+  alunos: string[];
 
   deuErro: any;
 
   constructor(private router: Router, public global: GlobalVarsService) { 
     this.mensagem = 'Para Habilitar o botão preencha todos os campos menos aluno';
-    this.listaDeHrs = this.global.listaDeHorarios;
+    this.listaDeHrs = global.listaDeHorarios;
     this.perfil = this.global.logado.perfil;
+    this.usuarios = global.usuarios;
+    this.alunos = [];
   }
   
   ngOnInit() {
-    this.novaLista = [
-      {
-        data : this.data,
-        hora: this.hora,
-        texto: 'texto',
-        aluno: null,
-        status: 'ativa'
+    for (let index = 0; index < this.usuarios.length; index++) {
+      const alunoz = this.usuarios[index];
+      if(alunoz.perfil === 2){
+        this.alunos.push(alunoz.nome);
       }
-    ];
+    }
   }
   
   logout(){
@@ -48,34 +50,12 @@ export class ProfessorPage implements OnInit {
 
   cadastroHorario(){
     try {
-      this.global.cadastro(this.data,this.hora,this.texto,this.status);
-      
+      this.global.cadastro(this.data,this.hora,this.texto,this.status, this.alunoNome);
       this.reset = false;
-      this.apareceLista();
     } catch (error) {
       this.mensagem = error;
     }
   }
-
-  reservar(hora: string){
-    if(this.alunoReservas == 1){
-      this.global.add(hora, this.global.logado.nome);
-    }else{
-     this.deuErro="usuario Ja possui uma reserva";
-    }
-    this.alunoReservas --;
-  }
-
-  desReservar(hora: string){
-    if(this.alunoReservas == 0){
-      this.global.tira(hora, this.global.logado.nome);
-    }else{
-     this.deuErro="Usuario ja possui uma reserva";
-    }
-    this.alunoReservas ++;
-  }
-
-  
 
   apareceLista(){
     this.verLista = true;
@@ -84,5 +64,6 @@ export class ProfessorPage implements OnInit {
   verlista(){
     this.router.navigate(['/lista']);
   }
+
 
 }

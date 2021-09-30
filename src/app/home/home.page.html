@@ -3,23 +3,25 @@
     <ion-title>
       Gerenciador de Aulas Particulares
     </ion-title>
+    
   </ion-toolbar>
 </ion-header>
 
-<ion-content color="dark" [fullscreen]="true">
+<ion-content  color="dark" [fullscreen]="true">
+  <div class="centro">
   <p>
-    <ion-label for="txEmail">Login</ion-label>
-    <ion-input type="email" name="txEmail" [(ngModel)]="email" placeholder="Digite Seu Email Aqui">
+    <ion-label for="txEmail"><h1>Login</h1></ion-label>
+    <ion-input style="background-color: rgb(88, 95, 95);" type="email" name="txEmail" [(ngModel)]="email" placeholder="Digite Seu Email Aqui">
     </ion-input>
   </p>
   <p>
-    <ion-label for="txSenha">Senha</ion-label>
-    <ion-input type="password" name="txSenha" [(ngModel)]="senha" placeholder="Digite a Senha Aqui"></ion-input>
+    <ion-label for="txSenha"><h1>Senha</h1></ion-label>
+    <ion-input style="background-color: rgb(88, 95, 95);" type="password" name="txSenha" [(ngModel)]="senha" placeholder="Digite a Senha Aqui"></ion-input>
   </p>
   <p>
     <ion-button (click)="login()">Entrar</ion-button>
   </p>
 
   <p>{{mensagem}}</p>
-
+</div>
 </ion-content>
